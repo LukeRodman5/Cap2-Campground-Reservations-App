@@ -12,8 +12,6 @@ public interface TransferDAO {
 	// List all transfers based on user id
 	List<Transfer> findTransfersByUserId(Integer userId); 
 	
+	public List<Transfer> findTransferById(long transferID);
 	
-	
-	
-
-}
+	}

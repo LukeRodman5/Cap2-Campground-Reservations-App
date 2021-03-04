@@ -2,8 +2,8 @@ package com.techelevator.tenmo.model;
 
 public class TransferStatus {
 	
-	private Integer statusId;
-	private String statusDesc;
+	private Integer statusId = 2;
+	private String statusDesc = "Approved";
 	/**
 	 * @return the statusId
 	 */

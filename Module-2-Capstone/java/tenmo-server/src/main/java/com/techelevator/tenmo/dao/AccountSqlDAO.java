@@ -1,25 +1,28 @@
 package com.techelevator.tenmo.dao;
 
+import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import com.techelevator.tenmo.model.Account;
 
 @Component
 public class AccountSqlDAO implements AccountDAO {
 	
-	private static final double STARTING_BALANCE = 1000;
 	private JdbcTemplate jdbcTemplate;
 	
-	public AccountSqlDAO(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
+	public AccountSqlDAO(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-	
+	@Override
 	public Double findBalanceByAccountId(Integer accountId) {
 		//Double theBalance = 0.0;
 		String sql = "select balance from accounts where account_id = ?";
 		
 		return jdbcTemplate.queryForObject(sql, Double.class, accountId);
 	}
-	
+	@Override
 	public Double increaseBalance(Integer accountId, Double amountToTransfer) {
 		String sql = "select balance from accounts where account_id = ?";
 		
@@ -27,7 +30,12 @@ public class AccountSqlDAO implements AccountDAO {
 		
 		return initialBalance + amountToTransfer;
 	}
-	
+	@Override
+	public void save(Account newAccount) {
+		String sqlInsertAccount = "INSERT INTO account(account_id, user_id, balance)" + "VALUES(?,?,?)";
+		jdbcTemplate.update(sqlInsertAccount, newAccount.getId(), newAccount.getUserId(), newAccount.getBalance());
+	}
+	@Override	
 	public Double decreaseBalance(Integer accountId, Double amountToTransfer) {
 		String sql = "select balance from accounts where account_id = ?";
 		

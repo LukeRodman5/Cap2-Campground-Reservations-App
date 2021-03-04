@@ -1,5 +1,7 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.Account;
+
 public interface AccountDAO {
 	
 	// Find the balance by account id
@@ -11,5 +13,5 @@ public interface AccountDAO {
 	// Decrease balance of sending user
 	Double decreaseBalance(Integer accountId, Double amountToTransfer);
 	// We would put some kind of error message if the new balance is negative
-
+	void save(Account newAccount);
 }

@@ -17,8 +17,7 @@ public class TransferSqlDAO implements TransferDAO {
 	}
 	
 	public void createTransfer(Transfer newTransfer) {
-		// we need account_from, account_to, amount variables
-		
+				
 		String insertTransfer = "INSERT INTO transfers (transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount) "
 				+ "VALUES(?, ?, ?, ?, ?, ?)";
 		
@@ -53,7 +52,22 @@ public class TransferSqlDAO implements TransferDAO {
 		
 	}
 	
-	
+	public List<Transfer> findTransferById(long transferID) {
+		
+		ArrayList<Transfer> transfers = new ArrayList<>();
+		String sqlFindTransfersByTransferId = 
+				"		 SELECT *" + 
+				"        FROM transfers" + 
+				"        WHERE transfer_id = ?";
+		
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindTransfersByTransferId, transferID);
+		
+		while (results.next()) {
+			Transfer theTransfer = mapRowToTransfer(results);
+			transfers.add(theTransfer);
+		}
+		return transfers;
+	}
 	
 	
 	

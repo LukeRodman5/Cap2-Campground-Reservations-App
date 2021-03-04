@@ -4,7 +4,7 @@ public class Account {
 	
 	private Integer id; // This may need to be a Long
 	private Integer userId;
-	private Double balance;
+	private Double balance = 1000.00;
 	/**
 	 * @return the id
 	 */
