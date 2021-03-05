@@ -77,7 +77,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		
 	}
 
-	private void viewPendingRequests() {
+	private void viewPendingRequests() { // OPTIONAL
 		// TODO Auto-generated method stub
 		
 	}
@@ -87,7 +87,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		
 	}
 
-	private void requestBucks() {
+	private void requestBucks() { // OPTIONAL
 		// TODO Auto-generated method stub
 		
 	}

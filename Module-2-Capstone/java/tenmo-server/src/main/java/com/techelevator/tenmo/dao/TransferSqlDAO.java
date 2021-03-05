@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import com.techelevator.tenmo.model.Transfer;
 
+@Component
 public class TransferSqlDAO implements TransferDAO {
 	
 	private JdbcTemplate jdbcTemplate;
@@ -16,12 +18,19 @@ public class TransferSqlDAO implements TransferDAO {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
-	public void createTransfer(Transfer newTransfer) {
+	public Transfer createTransfer(Transfer newTransfer) {
 				
 		String insertTransfer = "INSERT INTO transfers (transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount) "
 				+ "VALUES(?, ?, ?, ?, ?, ?)";
 		
-		newTransfer.setId(getNextTransferId()); // write method for getting the next transferId);
+		newTransfer.setId(getNextTransferId()); // write method for getting the next transferId;
+		
+		
+		//newTransfer.setTypeId();
+		
+		//newTransfer.setStatusId(1);
+		
+		// In the App code, we need the user to pass in AccountFrom, AccountTo and Amount when they create a Transfer
 		
 		jdbcTemplate.update(insertTransfer, newTransfer.getId(),
 											newTransfer.getTypeId(),
@@ -29,6 +38,17 @@ public class TransferSqlDAO implements TransferDAO {
 											newTransfer.getAccountFrom(),
 											newTransfer.getAccountTo(),
 											newTransfer.getAmount());
+		
+		Transfer theTransfer = null;
+		String selectTransfer = "SELECT * " + 
+				" FROM transfers " + 
+				" WHERE transfer_id = ?";
+		
+		SqlRowSet results = jdbcTemplate.queryForRowSet(selectTransfer, newTransfer.getId());
+		if (results.next()) {
+			theTransfer = mapRowToTransfer(results);
+		}
+		return theTransfer;
 	}
 	
 	public List<Transfer> findTransfersByUserId(Integer userId) {
@@ -52,9 +72,9 @@ public class TransferSqlDAO implements TransferDAO {
 		
 	}
 	
-	public List<Transfer> findTransferById(long transferID) {
+	public Transfer findTransferById(long transferID) {
 		
-		ArrayList<Transfer> transfers = new ArrayList<>();
+		Transfer transfer = new Transfer();
 		String sqlFindTransfersByTransferId = 
 				"		 SELECT *" + 
 				"        FROM transfers" + 
@@ -64,9 +84,9 @@ public class TransferSqlDAO implements TransferDAO {
 		
 		while (results.next()) {
 			Transfer theTransfer = mapRowToTransfer(results);
-			transfers.add(theTransfer);
+			transfer = theTransfer;
 		}
-		return transfers;
+		return transfer;
 	}
 	
 	

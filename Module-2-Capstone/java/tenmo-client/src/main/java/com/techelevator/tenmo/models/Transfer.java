@@ -4,7 +4,9 @@ public class Transfer {
 	
 	private Long id;
 	private Integer typeId;
+	//private String typeDescription;
 	private Integer statusId;
+	//private String statusDescription;
 	private Integer accountFrom;
 	private Integer accountTo;
 	private Double amount;
