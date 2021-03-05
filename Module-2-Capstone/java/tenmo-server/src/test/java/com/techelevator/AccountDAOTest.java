@@ -15,10 +15,11 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import com.techelevator.tenmo.dao.AccountSqlDAO;
 import com.techelevator.tenmo.model.Account;
 
-class AccountDAOTest {
+public class AccountDAOTest {
 
 	private static SingleConnectionDataSource dataSource;
     private AccountSqlDAO dao; 
+    
     @BeforeClass
     public static void setupDataSource() {
     	dataSource = new SingleConnectionDataSource();
@@ -42,7 +43,7 @@ class AccountDAOTest {
     }
     @Test
     public void returnsBalanceByAccountId() {
-    	Account theAccount = getAccount(1,2,3.0);
+    	Account theAccount = getAccount((long) 1, 2, 3.0);
     	dao.save(theAccount);
     	Double savedBalance = dao.findBalanceByAccountId(theAccount.getId());
     	assertEquals(theAccount.getBalance(),savedBalance);
@@ -64,16 +65,13 @@ class AccountDAOTest {
     	assertEquals(theAccount.getBalance(),decreasedBalance);
     	assertNotNull(decreasedBalance);
     }    
-    private Account getAccount(int account_id, int user_id, double balance) {
+    
+    private Account getAccount(long account_id, int user_id, double balance) {
     	Account theAccount = new Account();
     	theAccount.setId(account_id);
     	theAccount.setUserId(user_id);
     	theAccount.setBalance(balance);
     	return theAccount;
     } 
-    private void assertAccountsAreEqual(Account expected, Account actual) {
-        assertEquals(expected.getId(), actual.getId());
-        assertEquals(expected.getUserId(), actual.getUserId());
-        assertEquals(expected.getBalance(), actual.getBalance());
-}
+    
 }

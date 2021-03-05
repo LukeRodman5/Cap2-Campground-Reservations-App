@@ -2,19 +2,19 @@ package com.techelevator.tenmo.model;
 
 public class Account {
 	
-	private Integer id; // This may need to be a Long
+	private long id; // This may need to be a Long
 	private Integer userId;
 	private Double balance = 1000.00;
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public long getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	/**
