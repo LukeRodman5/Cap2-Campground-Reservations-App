@@ -9,8 +9,8 @@ public interface TransferDAO {
 	// Create a transfer of a specific amount to a specific user
 	Transfer createTransfer(Transfer newTransfer);
 	
-	// List all transfers based on user id
-	List<Transfer> findTransfersByUserId(Integer userId); 
+	// List all transfers based on account id
+	List<Transfer> findTransfersByAccountId(Integer accountId); 
 	
 	Transfer findTransferById(long transferID);
 	

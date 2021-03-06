@@ -51,17 +51,13 @@ public class TransferSqlDAO implements TransferDAO {
 		return theTransfer;
 	}
 	
-	public List<Transfer> findTransfersByUserId(Integer userId) {
+	public List<Transfer> findTransfersByAccountId(Integer accountId) {
 		
 		ArrayList<Transfer> transfers = new ArrayList<>();
 		
-		String sqlFindTransfersByUserId = "SELECT transfers.transfer_id, transfers.transfer_type_id, transfers.transfer_status_id, transfers.account_from, transfers.account_to, transfers.amount" + 
-				"        FROM accounts" + 
-				"        JOIN transfers" + 
-				"        ON transfers.account_from = accounts.account_id" + 
-				"        WHERE accounts.user_id = ?";
+		String sqlFindTransfersByUserId = "SELECT * FROM transfers WHERE account_from = ? OR account_to = ?";
 		
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindTransfersByUserId, userId);
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindTransfersByUserId, accountId);
 		
 		while (results.next()) {
 			Transfer theTransfer = mapRowToTransfer(results);

@@ -18,15 +18,19 @@ public class AccountSqlDAO implements AccountDAO {
 	
 	@Override
 	public Double findBalanceByAccountId(long accountId) {
-		String sql = "select balance from accounts where account_id = ?";
+		String sql = "SELECT balance FROM accounts WHERE account_id = ?";
 		return jdbcTemplate.queryForObject(sql, Double.class, accountId);
 	}
 	
 	@Override
 	public Double increaseBalance(long accountId, Double amountToTransfer) {
-		String sql = "select balance from accounts where account_id = ?";
-		Double initialBalance = jdbcTemplate.queryForObject(sql, Double.class, accountId);
-		return initialBalance + amountToTransfer;
+		String sqlSelect = "SELECT balance FROM accounts WHERE account_id = ?";
+		Double initialBalance = jdbcTemplate.queryForObject(sqlSelect, Double.class, accountId);
+		
+		Double updatedBalance = initialBalance + amountToTransfer;
+		String sqlUpdate = "UPDATE accounts SET balance = ? WHERE account_id = ?";
+		jdbcTemplate.update(sqlUpdate, updatedBalance, accountId);
+		return updatedBalance;
 	}
 	
 	@Override
@@ -39,18 +43,13 @@ public class AccountSqlDAO implements AccountDAO {
 	public Double decreaseBalance(long accountId, Double amountToTransfer) {
 		String sql = "select balance from accounts where account_id = ?";
 		Double initialBalance = jdbcTemplate.queryForObject(sql, Double.class, accountId);
-		Double newBalance = initialBalance - amountToTransfer;
-	
-		if (newBalance < 0) {
-			//System.out.println("Balance is negative. Transaction failed.");
-			// do we need to call an error here?
-			//throw new BalanceBelowZeroException();
-			
-			// Use boolean with DTO
-			// Simpler way is just keeping the balance as is
+		Double updatedBalance = initialBalance - amountToTransfer;
+		if (updatedBalance < 0) {
 			return initialBalance;
 		} else {
-			return newBalance;
+			String sqlUpdate = "UPDATE accounts SET balance = ? WHERE account_id = ?";
+			jdbcTemplate.update(sqlUpdate, updatedBalance, accountId);
+			return updatedBalance;
 		}
 	}
 	
