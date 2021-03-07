@@ -2,8 +2,8 @@ package com.techelevator.tenmo.model;
 
 public class Account {
 	
-	private long id; // This may need to be a Long
-	private Integer userId;
+	private Long id;
+	private int userId;
 	private Double balance = 1000.00;
 	/**
 	 * @return the id

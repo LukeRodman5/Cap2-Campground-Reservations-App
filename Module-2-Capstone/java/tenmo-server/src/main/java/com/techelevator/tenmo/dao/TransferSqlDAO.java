@@ -18,19 +18,19 @@ public class TransferSqlDAO implements TransferDAO {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
-	public Transfer createTransfer(Transfer newTransfer) {
+	@Override
+	public void save(Transfer newTransfer) {
 				
 		String insertTransfer = "INSERT INTO transfers (transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount) "
 				+ "VALUES(?, ?, ?, ?, ?, ?)";
 		
 		newTransfer.setId(getNextTransferId()); // write method for getting the next transferId;
 		
+		// All created Transfers will be of type "Send"
+		newTransfer.setTypeId(2);
 		
-		//newTransfer.setTypeId();
-		
-		//newTransfer.setStatusId(1);
-		
-		// In the App code, we need the user to pass in AccountFrom, AccountTo and Amount when they create a Transfer
+		// All created Transfers will be of type "Approved" initially
+		newTransfer.setStatusId(2);
 		
 		jdbcTemplate.update(insertTransfer, newTransfer.getId(),
 											newTransfer.getTypeId(),
@@ -38,29 +38,39 @@ public class TransferSqlDAO implements TransferDAO {
 											newTransfer.getAccountFrom(),
 											newTransfer.getAccountTo(),
 											newTransfer.getAmount());
+	}
+	
+	@Override
+	public Transfer findTransferById(long transferID) {
 		
 		Transfer theTransfer = null;
-		String selectTransfer = "SELECT * " + 
+		
+		String sqlFindTransferById = 
+				"SELECT * " + 
 				" FROM transfers " + 
 				" WHERE transfer_id = ?";
 		
-		SqlRowSet results = jdbcTemplate.queryForRowSet(selectTransfer, newTransfer.getId());
-		if (results.next()) {
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindTransferById, transferID);
+		
+		if(results.next()) {
 			theTransfer = mapRowToTransfer(results);
 		}
 		return theTransfer;
 	}
 	
-	public List<Transfer> findTransfersByAccountId(Integer accountId) {
+	@Override
+	public List<Transfer> findTransfersByAccountId(int accountId) {
 		
 		ArrayList<Transfer> transfers = new ArrayList<>();
 		
-		String sqlFindTransfersByUserId = "SELECT * FROM transfers WHERE account_from = ? OR account_to = ?";
+		String sqlFindTransfersByUserId = "SELECT * " +
+				                          " FROM transfers " +
+				                          " WHERE account_from = ? OR account_to = ?";
 		
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindTransfersByUserId, accountId);
+		SqlRowSet transfersFromTable = jdbcTemplate.queryForRowSet(sqlFindTransfersByUserId, accountId);
 		
-		while (results.next()) {
-			Transfer theTransfer = mapRowToTransfer(results);
+		while (transfersFromTable.next()) {
+			Transfer theTransfer = mapRowToTransfer(transfersFromTable);
 			transfers.add(theTransfer);
 		}
 		
@@ -68,24 +78,17 @@ public class TransferSqlDAO implements TransferDAO {
 		
 	}
 	
-	public Transfer findTransferById(long transferID) {
-		
-		Transfer transfer = new Transfer();
-		String sqlFindTransfersByTransferId = 
-				"		 SELECT *" + 
-				"        FROM transfers" + 
-				"        WHERE transfer_id = ?";
-		
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindTransfersByTransferId, transferID);
-		
-		while (results.next()) {
-			Transfer theTransfer = mapRowToTransfer(results);
-			transfer = theTransfer;
-		}
-		return transfer;
+	@Override
+	public void update(Transfer transfer) {
+		String sqlUpdate = "UPDATE transfers SET transfer_type_id = ?, transfer_status_id = ?, account_from = ?, account_to = ?, amount = ? WHERE transfer_id = ?";
+		jdbcTemplate.update(sqlUpdate, transfer.getTypeId(), transfer.getStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount(), transfer.getId());
 	}
 	
-	
+	@Override
+	public void delete(long id) {
+		String deleteATransfer = "DELETE from transfers WHERE transfer_id = ?";
+		jdbcTemplate.update(deleteATransfer, id);
+	}
 	
 	private long getNextTransferId() {
 		

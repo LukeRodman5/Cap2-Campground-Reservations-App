@@ -1,14 +1,20 @@
 package com.techelevator.tenmo;
 
+import java.util.List;
+
+import com.techelevator.tenmo.models.Account;
 import com.techelevator.tenmo.models.AuthenticatedUser;
+import com.techelevator.tenmo.models.Transfer;
+import com.techelevator.tenmo.models.User;
 import com.techelevator.tenmo.models.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.AuthenticationServiceException;
+import com.techelevator.tenmo.services.TenmoApplicationServices;
 import com.techelevator.view.ConsoleService;
 
 public class App {
 
-private static final String API_BASE_URL = "http://localhost:8080/";
+private static final String API_BASE_URL = "http://localhost:8080/tenmo";
     
     private static final String MENU_OPTION_EXIT = "Exit";
     private static final String LOGIN_MENU_OPTION_REGISTER = "Register";
@@ -25,15 +31,17 @@ private static final String API_BASE_URL = "http://localhost:8080/";
     private AuthenticatedUser currentUser;
     private ConsoleService console;
     private AuthenticationService authenticationService;
+	private TenmoApplicationServices appServices;
 
     public static void main(String[] args) {
-    	App app = new App(new ConsoleService(System.in, System.out), new AuthenticationService(API_BASE_URL));
+    	App app = new App(new ConsoleService(System.in, System.out), new AuthenticationService(API_BASE_URL), new TenmoApplicationServices(API_BASE_URL));
     	app.run();
     }
 
-    public App(ConsoleService console, AuthenticationService authenticationService) {
+    public App(ConsoleService console, AuthenticationService authenticationService, TenmoApplicationServices appServices) {
 		this.console = console;
 		this.authenticationService = authenticationService;
+		this.appServices = appServices;
 	}
 
 	public void run() {
@@ -67,13 +75,18 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		}
 	}
 
+	// Use Case 3
 	private void viewCurrentBalance() {
-		// TODO Auto-generated method stub
+		// Get account id from user
+		//Account theAccount = appServices.getAccountById(id);
+		//System.out.println("Your current account balance is: $" + theAccount.getBalance());
 		
 	}
 
+	// Use Case 5
 	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
+		//Transfer[] theTransfers = appServices.getTransfersByAccountId(accountId);
+		System.out.println("---------------------------");
 		
 	}
 
@@ -82,8 +95,22 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		
 	}
 
+	// Use Case 4
 	private void sendBucks() {
-		// TODO Auto-generated method stub
+		User[] theUsers = appServices.listUsers();
+		System.out.println("-----------------------");
+		System.out.println("Users");
+		System.out.println("ID       Name");
+		System.out.println("-----------------------");
+		for (User user : theUsers) {
+			System.out.println(user.getId() + "         " + user.getUsername());
+		}
+		System.out.println("----------");
+		
+		System.out.println("Enter ID of user you are sending to (0 to cancel):");
+		System.out.println("Enter amount:");
+		
+		// Next we need to take user provided ID and amount and create a new transfer 
 		
 	}
 

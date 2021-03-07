@@ -3,10 +3,10 @@ package com.techelevator.tenmo.model;
 public class Transfer {
 	
 	private Long id;
-	private Integer typeId;
-	private Integer statusId;
-	private Integer accountFrom;
-	private Integer accountTo;
+	private int typeId;
+	private int statusId;
+	private int accountFrom;
+	private int accountTo;
 	private Double amount;
 	/**
 	 * @return the id
@@ -23,7 +23,7 @@ public class Transfer {
 	/**
 	 * @return the typeId
 	 */
-	public Integer getTypeId() {
+	public int getTypeId() {
 		return typeId;
 	}
 	/**
@@ -35,7 +35,7 @@ public class Transfer {
 	/**
 	 * @return the statusId
 	 */
-	public Integer getStatusId() {
+	public int getStatusId() {
 		return statusId;
 	}
 	/**
@@ -47,7 +47,7 @@ public class Transfer {
 	/**
 	 * @return the accountFrom
 	 */
-	public Integer getAccountFrom() {
+	public int getAccountFrom() {
 		return accountFrom;
 	}
 	/**
@@ -59,13 +59,13 @@ public class Transfer {
 	/**
 	 * @return the accountTo
 	 */
-	public Integer getAccountTo() {
+	public int getAccountTo() {
 		return accountTo;
 	}
 	/**
 	 * @param accountTo the accountTo to set
 	 */
-	public void setAccountTo(Integer accountTo) {
+	public void setAccountTo(int accountTo) {
 		this.accountTo = accountTo;
 	}
 	/**

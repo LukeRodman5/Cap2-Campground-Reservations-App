@@ -1,17 +1,28 @@
 package com.techelevator.tenmo.dao;
 
+import java.util.List;
+
 import com.techelevator.tenmo.model.Account;
 
 public interface AccountDAO {
 	
-	// Find the balance by account id
-	Double findBalanceByAccountId(long accountId);
+	public void save(Account newAccount);	// Create/Add an Account to the table
 	
+	// Search methods to Retrieve data from table
+	public Account findAccountById(long AccountId);
+	public List<Account> findAccountsByUserId(int userId);
+	public Double findBalanceByAccountId(long accountId);
+	
+	
+	// Update methods
 	// Increase balance of receiving user
-	Double increaseBalance(long accountId, Double amountToTransfer);
-	
+	public Double increaseBalance(Account account, Double amountToTransfer);
+
 	// Decrease balance of sending user
-	Double decreaseBalance(long accountId, Double amountToTransfer);
-	// We would put some kind of error message if the new balance is negative
-	void save(Account newAccount);
+	public Double decreaseBalance(Account account, Double amountToTransfer);
+	
+	
+	// Delete a row from the table using the id passed
+	public void delete(long id);
+	
 }

@@ -7,11 +7,16 @@ import com.techelevator.tenmo.model.Transfer;
 public interface TransferDAO {
 	
 	// Create a transfer of a specific amount to a specific user
-	Transfer createTransfer(Transfer newTransfer);
+	public void save(Transfer newTransfer);
 	
-	// List all transfers based on account id
-	List<Transfer> findTransfersByAccountId(Integer accountId); 
+	// Search methods to Retrieve data from table
+	public Transfer findTransferById(long id);
+	public List<Transfer> findTransfersByAccountId(int accountId); 
 	
-	Transfer findTransferById(long transferID);
+	// Update transfer
+	public void update(Transfer transfer);
+	
+	// Delete transfer
+	public void delete(long id);
 	
 	}

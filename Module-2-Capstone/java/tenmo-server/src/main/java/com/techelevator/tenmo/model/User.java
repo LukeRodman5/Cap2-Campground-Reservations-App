@@ -12,13 +12,15 @@ public class User {
    private boolean activated;
    private Set<Authority> authorities = new HashSet<>();
 
-   public User() { }
-
    public User(Long id, String username, String password, String authorities) {
       this.id = id;
       this.username = username;
       this.password = password;
       this.activated = true;
+   }
+   
+   public User() {
+	   
    }
 
    public Long getId() {
