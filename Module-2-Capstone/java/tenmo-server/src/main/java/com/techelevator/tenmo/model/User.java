@@ -16,84 +16,61 @@ public class User {
       this.id = id;
       this.username = username;
       this.password = password;
-      this.activated = true;
-   }
+      this.activated = true;}
    
    public User() {
-	   
    }
-
    public Long getId() {
-      return id;
-   }
+      return id;}
 
    public void setId(Long id) {
-      this.id = id;
-   }
+      this.id = id;}
 
    public String getUsername() {
-      return username;
-   }
+      return username;}
 
    public void setUsername(String username) {
-      this.username = username;
-   }
+      this.username = username;}
 
    public String getPassword() {
-      return password;
-   }
+      return password;}
 
    public void setPassword(String password) {
-      this.password = password;
-   }
+      this.password = password;}
 
    public boolean isActivated() {
-      return activated;
-   }
+      return activated;}
 
    public void setActivated(boolean activated) {
-      this.activated = activated;
-   }
+      this.activated = activated;}
 
    public Set<Authority> getAuthorities() {
-      return authorities;
-   }
+      return authorities;}
 
    public void setAuthorities(Set<Authority> authorities) {
-      this.authorities = authorities;
-   }
+      this.authorities = authorities;}
 
    public void setAuthorities(String authorities) {
       String[] roles = authorities.split(",");
       for(String role : roles) {
-         this.authorities.add(new Authority("ROLE_" + role));
-      }
-   }
+         this.authorities.add(new Authority("ROLE_" + role));}}
 
-   @Override
+ @Override
    public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       User user = (User) o;
-      return id == user.id &&
-              activated == user.activated &&
+      return id == user.id && activated == user.activated &&
               Objects.equals(username, user.username) &&
               Objects.equals(password, user.password) &&
-              Objects.equals(authorities, user.authorities);
-   }
+              Objects.equals(authorities, user.authorities);}
 
-   @Override
+ @Override
    public int hashCode() {
-      return Objects.hash(id, username, password, activated, authorities);
-   }
+      return Objects.hash(id, username, password, activated, authorities);}
 
-   @Override
+ @Override
    public String toString() {
-      return "User{" +
-              "id=" + id +
-              ", username='" + username + '\'' +
-              ", activated=" + activated +
-              ", authorities=" + authorities +
-              '}';
-   }
+      return "User{"+"id=" +id+ ", username='"+username+'\''+
+              ", activated="+activated+", authorities="+authorities+'}';}
 }
