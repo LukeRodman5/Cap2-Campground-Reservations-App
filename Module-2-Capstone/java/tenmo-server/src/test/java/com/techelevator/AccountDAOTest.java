@@ -2,18 +2,13 @@ package com.techelevator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotEquals;
 import java.sql.SQLException;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import com.techelevator.tenmo.dao.AccountSqlDAO;
 import com.techelevator.tenmo.model.Account;
@@ -36,7 +31,7 @@ public class AccountDAOTest {
     @BeforeClass
     public static void setupDataSource() {
     	dataSource = new SingleConnectionDataSource();
-        dataSource.setUrl("jdbc:postgresql://localhost:8080/tenmo");
+        dataSource.setUrl("postgresql://localhost:8080/tenmo");
         dataSource.setUsername("postgres");
         dataSource.setPassword("postgres1");
         dataSource.setAutoCommit(false);

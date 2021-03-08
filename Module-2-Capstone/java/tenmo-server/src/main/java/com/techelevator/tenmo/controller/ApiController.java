@@ -25,8 +25,7 @@ import com.techelevator.tenmo.model.User;
 
 
 @RestController
-//@PreAuthorize("isAuthenticated()")
-
+@PreAuthorize("isAuthenticated()")
 
 public class ApiController {
 	
